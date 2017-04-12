@@ -1,0 +1,39 @@
+{
+  "name": "pepeverde/expect-ct-builder",
+  "description": "Easily add Excepct-CT header to your project",
+  "keywords": [
+    "expect-ct",
+    "http",
+    "headers",
+    "security"
+  ],
+  "minimum-stability": "stable",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Manuel Dalla Lana",
+      "email": "manuel@pepeverde.agency"
+    }
+  ],
+  "support": {
+    "issues":   "https://github.com/pepeverde/expect-ct-builder/issues",
+    "email":    "manuel@pepeverde.agency",
+    "source":   "https://github.com/pepeverde/expect-ct-builder"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pepeverde\\ECTBuilder\\": "src"
+    }
+  },
+  "require": {
+    "php": "^5.6|^7.0"
+  },
+  "require-dev": {
+    "psr/http-message": "^1",
+    "phpunit/phpunit": "5.*|6.*"
+  },
+  "suggest": {
+    "psr/http-message": "For ECTBuilder::injectECTHeader()"
+  }
+}

@@ -1,0 +1,4 @@
+/vendor/
+/clover.xml
+/composer.lock
+/composer.phar
