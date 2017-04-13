@@ -4,6 +4,7 @@ namespace Pepeverde\ECTBuilder\Test;
 
 use Pepeverde\ECTBuilder\ECTBuilder;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\MessageInterface;
 
 class ECTBuilderTest extends TestCase
 {
@@ -97,5 +98,26 @@ class ECTBuilderTest extends TestCase
             'negative int -1' => [-1],
             'negative int -123' => [-123],
         ];
+    }
+
+    public function testInjectECTHeader()
+    {
+        $modifiedMessage = $this->getMockBuilder(MessageInterface::class)
+            ->getMock();
+        $message = $this->getMockBuilder(MessageInterface::class)
+            ->getMock();
+
+        $expectCT = new ECTBuilder([
+            'enforce' => true,
+            'maxAge' => 0,
+            'reportUri' => '/report-url'
+        ]);
+        $header = $expectCT->compile();
+        $message
+            ->expects(self::once())
+            ->method('withAddedHeader')
+            ->with('Expect-CT', $header)
+            ->willReturn($modifiedMessage);
+        self::assertSame($modifiedMessage, $expectCT->injectECTHeader($message));
     }
 }
