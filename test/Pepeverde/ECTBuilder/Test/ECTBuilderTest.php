@@ -23,6 +23,35 @@ class ECTBuilderTest extends TestCase
     }
 
     /**
+     * @dataProvider badPolicyProvider
+     * @expectedException \InvalidArgumentException
+     * @param array $badPolicy
+     */
+    public function testBadPolicy($badPolicy)
+    {
+        $expectCT = new ECTBuilder($badPolicy);
+        $expectCT->getCompiledHeader();
+    }
+
+    /**
+     * @dataProvider badPolicyNotArrayProvider
+     * @param array $badPolicy
+     */
+    public function testBadNotArrayPolicy($badPolicy)
+    {
+        if (PHP_VERSION_ID >= 70000) {
+            $this->expectException(\TypeError::class);
+        } else {
+            $this->markTestIncomplete(
+                'This test has not been implemented yet on PHP < 7.0.'
+            );
+        }
+
+        $expectCT = new ECTBuilder($badPolicy);
+        $expectCT->getCompiledHeader();
+    }
+
+    /**
      * @dataProvider badMaxAgeProvider
      * @expectedException \InvalidArgumentException
      * @param mixed $badMaxAge
@@ -86,6 +115,26 @@ class ECTBuilderTest extends TestCase
         ];
     }
 
+    public function badPolicyProvider()
+    {
+        return [
+            'enforce true only' => [['enforce' => true]],
+            'enforce false only' => [['enforce' => false]],
+            'reportUri only' => [['reportUri' => '/report-url']],
+            'enforce true and reportUri' => [['enforce' => true, 'reportUri' => '/report-url']],
+            'enforce false and reportUri' => [['enforce' => false, 'reportUri' => '/report-url']],
+        ];
+    }
+
+    public function badPolicyNotArrayProvider()
+    {
+        return [
+            'boolean' => [true],
+            'number' => [123],
+            'string' => [uniqid('ExpectCT', true)],
+        ];
+    }
+
     public function badMaxAgeProvider()
     {
         return [
@@ -102,10 +151,8 @@ class ECTBuilderTest extends TestCase
 
     public function testInjectECTHeader()
     {
-        $modifiedMessage = $this->getMockBuilder(MessageInterface::class)
-            ->getMock();
-        $message = $this->getMockBuilder(MessageInterface::class)
-            ->getMock();
+        $modifiedMessage = $this->getMockBuilder(MessageInterface::class)->getMock();
+        $message = $this->getMockBuilder(MessageInterface::class)->getMock();
 
         $expectCT = new ECTBuilder([
             'enforce' => true,
@@ -114,11 +161,11 @@ class ECTBuilderTest extends TestCase
         ]);
         $header = $expectCT->compile();
         $message
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('withAddedHeader')
             ->with('Expect-CT', $header)
             ->willReturn($modifiedMessage);
-        self::assertSame($modifiedMessage, $expectCT->injectECTHeader($message));
+        $this->assertSame($modifiedMessage, $expectCT->injectECTHeader($message));
     }
 
     /**
