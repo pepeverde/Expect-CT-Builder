@@ -23,6 +23,7 @@ git:
 before_script:
     - travis_retry composer self-update
     - travis_retry composer install --no-interaction --prefer-source
+    - echo 'error_reporting =  E_ALL' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 script:
     - vendor/bin/phpunit -c phpunit.xml.dist
