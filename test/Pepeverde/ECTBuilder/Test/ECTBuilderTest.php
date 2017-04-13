@@ -173,8 +173,8 @@ class ECTBuilderTest extends TestCase
      */
     public function testSendHeader()
     {
-        if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('Cannot get a headers list in HHVM');
+        if (!function_exists('xdebug_get_headers')) {
+            $this->markTestSkipped('Cannot test properly without XDebug');
         }
 
         $expectCT = new ECTBuilder([
