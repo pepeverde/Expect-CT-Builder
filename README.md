@@ -1,6 +1,7 @@
 # Expect-CT Builder
 
-[![Build Status](https://travis-ci.org/pepeverde/Expect-CT-Builder.svg?branch=develop)](https://travis-ci.org/pepeverde/Expect-CT-Builder)
+[![Build Status](https://travis-ci.org/pepeverde/Expect-CT-Builder.svg?branch=master)](https://travis-ci.org/pepeverde/Expect-CT-Builder)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/pepeverde/Expect-CT-Builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/pepeverde/Expect-CT-Builder/?branch=master)
 
 The `Expect-CT` HTTP header tells browsers to expect Certificate Transparency. For more information, see [this blog post by Scott Helme](https://scotthelme.co.uk/a-new-security-header-expect-ct/) and the [in-progress spec](https://datatracker.ietf.org/doc/draft-stark-expect-ct).
 
