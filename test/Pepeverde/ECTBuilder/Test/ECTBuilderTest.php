@@ -173,6 +173,10 @@ class ECTBuilderTest extends TestCase
      */
     public function testSendHeader()
     {
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('Cannot get a headers list in HHVM');
+        }
+
         $expectCT = new ECTBuilder([
             'enforce' => true,
             'maxAge' => 30,
