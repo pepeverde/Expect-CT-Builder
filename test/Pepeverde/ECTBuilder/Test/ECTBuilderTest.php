@@ -120,4 +120,19 @@ class ECTBuilderTest extends TestCase
             ->willReturn($modifiedMessage);
         self::assertSame($modifiedMessage, $expectCT->injectECTHeader($message));
     }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testSendHeader()
+    {
+        $expectCT = new ECTBuilder([
+            'enforce' => true,
+            'maxAge' => 30,
+            'reportUri' => '/report-url'
+        ]);
+        $expectCT->sendECTHeader();
+        $headerList = xdebug_get_headers();
+        $this->assertEquals($headerList[0], 'Expect-CT: ' . $expectCT->getCompiledHeader());
+    }
 }
