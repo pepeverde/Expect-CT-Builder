@@ -48,7 +48,7 @@ class ECTBuilder
             $compiled[] = 'report-uri="' . $this->policies['reportUri'] . '"';
         }
 
-        $this->compiled = \implode('; ', $compiled);
+        $this->compiled = \implode(', ', $compiled);
         $this->needsCompile = false;
 
         return $this->compiled;
@@ -113,7 +113,7 @@ class ECTBuilder
     public function sendECTHeader()
     {
         if (\headers_sent()) {
-            throw new \Exception('Headers already sent!');
+            throw new \RuntimeException('Headers already sent!');
         }
         if ($this->needsCompile) {
             $this->compile();

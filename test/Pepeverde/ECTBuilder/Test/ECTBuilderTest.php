@@ -87,14 +87,14 @@ class ECTBuilderTest extends TestCase
                     'enforce' => true,
                     'maxAge' => 0
                 ],
-                'enforce; max-age=0'
+                'enforce, max-age=0'
             ],
             'maxAge and reportUri set' => [
                 [
                     'maxAge' => 0,
                     'reportUri' => '/report-url'
                 ],
-                'max-age=0; report-uri="/report-url"'
+                'max-age=0, report-uri="/report-url"'
             ],
             'maxAge and reportUri set, enforce false' => [
                 [
@@ -102,7 +102,7 @@ class ECTBuilderTest extends TestCase
                     'maxAge' => 0,
                     'reportUri' => '/report-url'
                 ],
-                'max-age=0; report-uri="/report-url"'
+                'max-age=0, report-uri="/report-url"'
             ],
             'maxAge and reportUri set, enforce true' => [
                 [
@@ -110,7 +110,7 @@ class ECTBuilderTest extends TestCase
                     'maxAge' => 0,
                     'reportUri' => '/report-url'
                 ],
-                'enforce; max-age=0; report-uri="/report-url"'
+                'enforce, max-age=0, report-uri="/report-url"'
             ],
         ];
     }
