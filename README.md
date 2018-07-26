@@ -4,7 +4,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/pepeverde/Expect-CT-Builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/pepeverde/Expect-CT-Builder/?branch=master)
 [![codecov](https://codecov.io/gh/pepeverde/Expect-CT-Builder/branch/master/graph/badge.svg)](https://codecov.io/gh/pepeverde/Expect-CT-Builder)
 
-The `Expect-CT` HTTP header tells browsers to expect Certificate Transparency. For more information, see [this blog post by Scott Helme](https://scotthelme.co.uk/a-new-security-header-expect-ct/) and the [in-progress spec](https://datatracker.ietf.org/doc/draft-stark-expect-ct).
+The `Expect-CT` HTTP header tells browsers to expect Certificate Transparency. For more information, see [this blog post by Scott Helme](https://scotthelme.co.uk/a-new-security-header-expect-ct/) and the [in-progress spec](https://datatracker.ietf.org/doc/draft-ietf-httpbis-expect-ct/).
 
 Expect-CT Builder was inspired by [ParagonIE\CSPBuilder](https://github.com/paragonie/csp-builder)
 
