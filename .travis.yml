@@ -14,12 +14,11 @@ php:
   - 7.4snapshot
   - nightly
 
-allow_failures:
-  - php: 7.4snapshot
-  - php: nightly
-
 matrix:
   fast_finish: true
+  allow_failures:
+    - php: 7.4snapshot
+    - php: nightly
 
 git:
   depth: 5
