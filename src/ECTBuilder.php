@@ -2,7 +2,13 @@
 
 namespace Pepeverde\ECTBuilder;
 
+use Exception;
+use function header;
+use function headers_sent;
+use function implode;
+use InvalidArgumentException;
 use Psr\Http\Message\MessageInterface;
+use RuntimeException;
 
 class ECTBuilder
 {
@@ -22,7 +28,7 @@ class ECTBuilder
      * Compile the current policies into an Expect-CT header
      *
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function compile()
     {
@@ -35,10 +41,10 @@ class ECTBuilder
 
         // max-age is mandatory
         if (!isset($this->policies['maxAge'])) {
-            throw new \InvalidArgumentException('maxAge is mandatory. Set a positive integer as maxAge value.');
+            throw new InvalidArgumentException('maxAge is mandatory. Set a positive integer as maxAge value.');
         }
 
-        if (isset($this->policies['enforce']) && (bool)$this->policies['enforce'] === true) {
+        if (isset($this->policies['enforce']) && (bool)$this->policies['enforce']) {
             $compiled[] = 'enforce';
         }
 
@@ -48,7 +54,7 @@ class ECTBuilder
             $compiled[] = 'report-uri="' . $this->policies['reportUri'] . '"';
         }
 
-        $this->compiled = \implode(', ', $compiled);
+        $this->compiled = implode(', ', $compiled);
         $this->needsCompile = false;
 
         return $this->compiled;
@@ -57,16 +63,16 @@ class ECTBuilder
     /**
      * @param int $maxAge
      * @return int
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function parseMaxAge($maxAge)
     {
         if (is_array($maxAge)) {
-            throw new \InvalidArgumentException('maxAge in an array so it is not a valid value for maxAge. Use a positive integer');
+            throw new InvalidArgumentException('maxAge is an array so it is not a valid value for maxAge. Use a positive integer');
         }
 
         if (!is_int($maxAge) || $maxAge < 0) {
-            throw new \InvalidArgumentException($maxAge . ' is not a valid value for maxAge. Use a positive integer');
+            throw new InvalidArgumentException($maxAge . ' is not a valid value for maxAge. Use a positive integer');
         }
 
         return $maxAge;
@@ -76,7 +82,7 @@ class ECTBuilder
      * Get the formatted Expect-CT header
      *
      * @return string
-     * @throws \InvalidArgumentException::class
+     * @throws InvalidArgumentException::class
      */
     public function getCompiledHeader()
     {
@@ -92,34 +98,33 @@ class ECTBuilder
      *
      * @param MessageInterface $message
      * @return MessageInterface
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function injectECTHeader(MessageInterface $message)
     {
         if ($this->needsCompile) {
             $this->compile();
         }
-        $message = $message->withAddedHeader('Expect-CT', $this->compiled);
 
-        return $message;
+        return $message->withAddedHeader('Expect-CT', $this->compiled);
     }
 
     /**
      * Send the compiled Expect-CT as a header()
      *
      * @return boolean
-     * @throws \Exception
+     * @throws Exception
      */
     public function sendECTHeader()
     {
-        if (\headers_sent()) {
-            throw new \RuntimeException('Headers already sent!');
+        if (headers_sent()) {
+            throw new RuntimeException('Headers already sent!');
         }
         if ($this->needsCompile) {
             $this->compile();
         }
 
-        \header('Expect-CT: ' . $this->compiled);
+        header('Expect-CT: ' . $this->compiled);
 
         return true;
     }

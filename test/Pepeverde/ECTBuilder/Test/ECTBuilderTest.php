@@ -2,9 +2,11 @@
 
 namespace Pepeverde\ECTBuilder\Test;
 
+use InvalidArgumentException;
 use Pepeverde\ECTBuilder\ECTBuilder;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\MessageInterface;
+use TypeError;
 
 class ECTBuilderTest extends TestCase
 {
@@ -24,7 +26,7 @@ class ECTBuilderTest extends TestCase
 
     /**
      * @dataProvider badPolicyProvider
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @param array $badPolicy
      */
     public function testBadPolicy($badPolicy)
@@ -40,7 +42,7 @@ class ECTBuilderTest extends TestCase
     public function testBadNotArrayPolicy($badPolicy)
     {
         if (PHP_VERSION_ID >= 70000) {
-            $this->expectException(\TypeError::class);
+            $this->expectException(TypeError::class);
         } else {
             $this->markTestIncomplete(
                 'This test has not been implemented yet on PHP < 7.0.'
@@ -53,7 +55,7 @@ class ECTBuilderTest extends TestCase
 
     /**
      * @dataProvider badMaxAgeProvider
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @param mixed $badMaxAge
      */
     public function testBadMaxAge($badMaxAge)
